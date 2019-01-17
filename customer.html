@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: aqua;
+        }
+        .main{
+            width: 60rem;
+            height: 30rem;
+            margin: 3rem auto;
+            border: 3px rgb(0, 153, 255) solid;
+            border-radius: 20px;
+            text-align: center;
+            }
+        table,tr,th,td{
+            border: 1px rgb(0, 153, 255) solid;
+                
+        }
+        table{
+            margin: 0 auto;
+        }
+        th,td{
+            width: 11rem;
+        }
+        input{
+            outline: none;
+            padding-left: 10px;
+            margin-top: 2rem;
+            width: 16rem;
+            height: 1.8rem;
+            border-radius: 0.5rem;
+        }
+        button{
+            font-size: 1rem;
+            margin-left: 10px;
+            }
+        table{
+            margin-top: 2rem;
+            font-size: 1.2rem;
+        }
+        span{
+            float: right;
+            margin-right: 10px;
+        }
+        .main2{
+            position:fixed;
+            display: none;
+            width: 30rem;
+            height: 30rem;
+            top: 20px;
+            left: 30%;
+            border: 3px rgb(0, 153, 255) solid;
+            border-radius: 20px;
+            background-color: aqua;
+        }
+        .main2 h1{
+            font-size: 30px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .main2 div{
+            text-align: center;
+            font-size: 1.1rem;  
+        }
+        .main2 button{
+            display: block;
+            text-align: center;
+            font-size: 1rem;
+            width: 5rem;
+            height: 2rem;
+            margin: 2rem auto;
+            border-radius: 0.5rem;
+        }
+        .main2 label{
+            width: 4rem;
+            text-align: right;
+        }
+        .main2 input{
+            height: 2rem;
+            width: 13rem;
+            border-radius: 1rem;
+            outline: none;
+            padding-left: 10px;
+        }
+        .main2 span{
+            margin-left: 20px;
+        }
+        </style>
+</head>
+
+<body>
+    <div class="main">
+        <div>
+            <input type="text" placeholder="请输入查询内容"><button type="button">搜索</button>
+        </div>
+        <span>>>返回首页</span>
+        <table cellspacing=0;>
+            <thead>
+                <tr>
+                    <th>客户</th>
+                    <th>等级</th>
+                    <th>电话</th>
+                    <th>住址</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="main2">
+        <h1>修改客户</h1>
+        <div>
+            <div>
+                <label for="">客户：</label><input type="text" name="username" id=""><br>
+            </div>
+            <div>
+                <label for="">等级：</label><input type="text" name="sex" id=""><br>
+            </div>
+            <div>
+                <label for="">电话：</label><input type="text" name="tell" id=""><br>
+            </div>
+            <div>
+                <label for="">住址：</label><input type="text" name="address" id=""><br>
+            </div>
+
+        </div>
+        <button type="button" id="btn">确认</button>
+        <span id="close">关闭</span>
+    </div>
+    <script>
+        // 封装插入表格数据的方法
+        function addData(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                tbody.innerHTML +=
+                    `
+                        <tr>
+                            <td id=${i}>${arr[i].username}</td>
+                            <td id=${i}>${arr[i].sex}</td>
+                            <td id=${i}>${arr[i].tell}</td>
+                            <td id=${i}>${arr[i].address}</td>
+                            <td onclick=make()><a href="" id=${i}>删除</a>|<a href="" id=${i}>修改</a></td>
+                        </tr>
+                    `
+            }
+        }
+        //获取、渲染数据
+        var usersArr = JSON.parse(localStorage.users);
+        var tbody = document.querySelector("tbody");
+        addData(usersArr);
+
+        // 查询
+        var button = document.querySelector("button");
+        button.onclick = function () {
+            tbody.innerHTML = "";
+            var inputValue = document.querySelector("input").value;
+            var resArr = usersArr.filter(function (ele) {
+                return ele.username.includes(inputValue) || ele.sex.includes(inputValue) ||
+                    ele.tell.includes(inputValue) || ele.address.includes(inputValue)
+            });
+            addData(resArr);
+        }
+
+        // 删除、修改
+        function make() {
+            event.preventDefault();
+            var aValue = event.target.innerText
+            var index = event.target.id;
+            if (aValue == "删除") {
+                var msg = "您真的确定要删除吗？\n\n请确认！";
+                if (confirm(msg) == true) {
+                    tbody.innerHTML = "";
+                    var usersArr = JSON.parse(localStorage.users);
+                    usersArr.splice(index, 1);
+                    localStorage.users = JSON.stringify(usersArr);
+                    addData(usersArr);
+                } else {
+                    return false;
+                }
+
+            } else if (aValue == "修改") {
+                var open = document.querySelector(".main2");
+                open.style.display = "block";
+            }
+            // 获取传过来的id
+            var id =  index;
+            // 回显数据
+            var usersArr = JSON.parse(localStorage.users)
+            var username = document.querySelector("[name=username]");
+            username.value = usersArr[id].username;
+            var sex = document.querySelector("[name=sex]");
+            sex.value = usersArr[id].sex;
+            var tell = document.querySelector("[name=tell]");
+            tell.value = usersArr[id].tell;
+            var address = document.querySelector("[name=address]");
+            address.value = usersArr[id].address;
+
+            // 修改
+            var update = document.querySelector("#btn");
+            update.onclick = function () {
+                usersArr[id].username = username.value;
+                usersArr[id].sex = sex.value;
+                usersArr[id].tell = tell.value;
+                usersArr[id].address = address.value;
+                localStorage.users = JSON.stringify(usersArr);
+                var flag = confirm("修改成功。")
+                if (flag) {
+                    // 确定，跳转到查询界面
+                    location.href = "./customer.html"
+                }
+            }
+        }
+
+        // 返回首页
+        var span = document.querySelector(".main span");
+        span.onclick = function () {
+            location.href = "./index.html"
+        }
+        var close = document.querySelector("#close");
+        close.onclick = function () {
+            var open = document.querySelector(".main2");
+            open.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

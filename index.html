@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>客户管理系统</title>
+    <style>
+        body *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: aqua;
+        }
+        #app{
+            width: 30rem;
+            height: 30rem;
+            margin: 3rem auto;
+            border: 3px rgb(0, 153, 255) solid;
+            border-radius: 20px;
+        }
+        h1{
+            font-size: 30px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .main div {
+            margin: 3rem auto;
+            font-size: 1.2rem;
+            text-align: center;
+            background-color: rgb(12, 118, 160);
+            width: 60%;
+            height: 35px;
+            line-height: 35px;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>客户管理系统</h1>
+        <div class="main">
+            <div>添加客户</div>
+            <div>删除客户</div>
+            <div>修改客户</div>
+            <div>查询客户</div>
+        </div>
+    </div>
+    <script>
+        var main = document.querySelector(".main");
+        main.onclick = function btn(e) {
+        var divV = e.target.innerText;
+        if (divV == "添加客户") {
+            location.href = "./add.html"
+        } else {
+            location.href = "./customer.html"
+        }
+    }
+    </script>
+</body>
+
+</html>

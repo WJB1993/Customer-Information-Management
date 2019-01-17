@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加用户</title>
+    <style>
+        body *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: aqua;
+        }
+        .main{
+            width: 30rem;
+            height: 30rem;
+            margin: 3rem auto;
+            border: 3px rgb(0, 153, 255) solid;
+            border-radius: 20px;
+        }
+        h1{
+            font-size: 30px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .main div{
+            text-align: center;
+            margin: 2rem;
+            font-size: 1.1rem;  
+        }
+        button{
+            display: block;
+            text-align: center;
+            font-size: 1rem;
+            width: 5rem;
+            height: 2rem;
+            margin: 2rem auto;
+            border-radius: 0.5rem;
+        }
+        label{
+            width: 4rem;
+            text-align: right;
+        }
+        input{
+            height: 2rem;
+            width: 13rem;
+            border-radius: 1rem;
+            outline: none;
+            padding-left: 10px;
+        }
+        span{
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <h1>增加客户</h1>
+        <div>
+            <div>
+                <label for="">客户：</label><input type="text" name="username" id=""><br>
+            </div>
+            <div>
+                <label for="">等级：</label><input type="text" name="sex" id=""><br>
+            </div>
+            <div>
+                <label for="">电话：</label><input type="text" name="tell" id=""><br>
+            </div>
+            <div>
+                <label for="">住址：</label><input type="text" name="address" id=""><br>
+            </div>
+        </div>
+        <button type="button">添加</button>
+        <span>>>返回主页</span>
+    </div>
+    <script>
+        var btn = document.querySelector("button");
+        btn.onclick = function add() {
+            // 获取输入框信息
+            var inps = document.querySelectorAll("input");
+            var username = inps[0].value;
+            var sex = inps[1].value;
+            var tell = inps[2].value;
+            var address = inps[3].value;
+            var users = localStorage.users;
+            var userArr = JSON.parse(users);
+            userArr.push({
+                username: username,
+                sex: sex,
+                tell: tell,
+                address: address
+            })
+            localStorage.users = JSON.stringify(userArr);
+            var flag = confirm("添加成功")
+            if (flag) {
+                location.href = "./customer.html"
+            } else {
+                inps[0].value = "";
+                inps[1].value = "";
+                inps[2].value = "";
+                inps[3].value = "";
+            }
+        }
+
+        // 返回首页
+        var span = document.querySelector("span");
+        span.onclick = function () {
+            location.href = "./index.html"
+        }
+    </script>
+</body>
+
+</html>
